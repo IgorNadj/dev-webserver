@@ -1,0 +1,28 @@
+name: dev
+
+services:
+  reverse-proxy:
+    # The official v3 Traefik docker image
+    image: traefik:v3.3
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  nextseason-web:
+    image: 45ef10d6cf5e
+    labels:
+      - "traefik.http.routers.nextseason-web.rule=Host(`nextseason-web.docker.localhost`) || Host(`nextseason.igornadj.io`)"
+      - traefik.http.services.nextseason-web.loadbalancer.server.port=8080
+
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
