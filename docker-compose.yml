@@ -21,6 +21,12 @@ services:
       - "traefik.http.routers.nextseason-web.rule=Host(`nextseason.docker.localhost`) || Host(`nextseason.dev.igornadj.io`)"
       - traefik.http.services.nextseason-web.loadbalancer.server.port=8080
 
+  visual-processing-test:
+    image: igornadj/visual-processing-test
+    labels:
+      - "traefik.http.routers.visual-processing-test.rule=Host(`visual-processing-test.docker.localhost`) || Host(`visual-processing-test.dev.igornadj.io`)"
+      - traefik.http.services.visual-processing-test.loadbalancer.server.port=8080
+
   whoami:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
