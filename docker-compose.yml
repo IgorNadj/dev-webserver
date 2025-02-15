@@ -16,7 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   nextseason-web:
-    image: 45ef10d6cf5e
+    image: igornadj/nextseason
     labels:
       - "traefik.http.routers.nextseason-web.rule=Host(`nextseason-web.docker.localhost`) || Host(`nextseason.igornadj.io`)"
       - traefik.http.services.nextseason-web.loadbalancer.server.port=8080
