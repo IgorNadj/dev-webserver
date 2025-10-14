@@ -3,10 +3,10 @@ Dev Server
 ## Setup:
 
 ### Manual:
-1. create ec2 instance
+1. create ec2 instance (ubuntu, username: ubuntu)
 2. install docker (official)
 3. ssh in
-4. git clone this repo
+4. git clone this repo into /home/ubuntu/dev-webserver
 5. docker login
 6. sudo docker compose up
 
@@ -17,5 +17,6 @@ Dev Server
 3. Copy pub key
 4. In Github `Settings > Secrets and variables > Actions`:
 5. Add `DEV_SERVER_SSH_KEY`, `DEV_SERVER_USERNAME`, `DEV_SERVER_HOST`
+6. Add `DOCKER_ACCESS_TOKEN` (username: igornadj)
 
 
