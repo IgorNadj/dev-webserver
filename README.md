@@ -7,8 +7,10 @@ Dev Server
 2. install docker (official)
 3. ssh in
 4. git clone this repo into /home/ubuntu/dev-webserver
-5. docker login
-6. sudo docker compose up
+5. add user to docker group `sudo usermod -aG docker ubuntu`
+6. re-log in
+7. docker login
+8. docker compose up
 
 ### Set up GitHub redeploy
 
