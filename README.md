@@ -3,22 +3,26 @@ Dev Server
 ## Setup:
 
 ### Manual:
-1. create ec2 instance (ubuntu, username: ubuntu)
-2. install docker (official)
-3. ssh in
-4. git clone this repo into /home/ubuntu/dev-webserver
-5. add user to docker group `sudo usermod -aG docker ubuntu`
-6. re-log in
-7. docker login
-8. docker compose up
+1. create ec2 instance 
+   1. (ubuntu, username: ubuntu)
+   2. install docker (official)
+   3. git clone this repo into /home/ubuntu/dev-webserver
+   4. add user to docker group `sudo usermod -aG docker ubuntu`
+   5. re-log in
+   6. docker login
+   7. docker compose up
+
 
 ### Set up GitHub redeploy
 
-1. ssh in
-2. `ssh-keygen -t ed25519 -C "your_email@example.com"`
-3. Copy pub key
-4. In Github `Settings > Secrets and variables > Actions`:
-5. Add `DEV_SERVER_SSH_KEY`, `DEV_SERVER_USERNAME`, `DEV_SERVER_HOST`
-6. Add `DOCKER_ACCESS_TOKEN` (username: igornadj)
+1. In Docker Hub
+   1. Generate an Access Token
+   2. Add it to ~/.docker-hub-secret
+2. ssh in
+   1. `ssh-keygen -t ed25519 -C "your_email@example.com"`
+   2. Copy pub key
+3. In Github `Settings > Secrets and variables > Actions`:
+   1. Add `DEV_SERVER_SSH_KEY`
+   2. Set up GHA ssh redeploy workflow
 
 

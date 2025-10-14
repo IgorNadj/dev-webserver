@@ -1,4 +1,4 @@
-name: Deploy to Dev Server via SSH
+name: Deploy to Dev Server
 
 on:
   push:
@@ -8,24 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy to server
-        run: |
-          # Start the SSH agent and add the private key
-          eval "$(ssh-agent -s)"
-          echo "${{ secrets.DEV_SERVER_SSH_KEY }}" | ssh-add -
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-          # Create the SSH directory and add the server's host key to known_hosts
-          # to avoid interactive prompts
-          mkdir -p ~/.ssh
-          ssh-keyscan -H "${{ secrets.DEV_SERVER_HOST }}" >> ~/.ssh/known_hosts
-
-          # Execute the deployment commands on the remote server
-          ssh ${{ secrets.DEV_SERVER_USERNAME }}@${{ secrets.DEV_SERVER_HOST }} << 'EOF'
-            cd /home/ubuntu/dev-webserver
-            git pull
-            echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --username igornadj --password-stdin
-            docker compose pull
-            docker compose up -d --remove-orphans
-          EOF
+      - name: Deploy
+        uses: IgorNadj/github-actions@v1
+        with:
+          ssh-private-key: ${{ secrets.DEV_SERVER_SSH_KEY }}
