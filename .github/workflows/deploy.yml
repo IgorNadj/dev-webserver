@@ -1,0 +1,30 @@
+name: Deploy to Dev Server via SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        run: |
+          # Start the SSH agent and add the private key
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.DEV_SERVER_SSH_KEY }}" | ssh-add -
+
+          # Create the SSH directory and add the server's host key to known_hosts
+          # to avoid interactive prompts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.DEV_SERVER_HOST }}" >> ~/.ssh/known_hosts
+
+          # Execute the deployment commands on the remote server
+          ssh ${{ secrets.DEV_SERVER_USERNAME }}@${{ secrets.DEV_SERVER_HOST }} << 'EOF'
+            cd /path/to/your/docker-compose-project
+            git pull origin main
+            docker-compose pull
+            docker-compose up -d --remove-orphans
+          EOF
