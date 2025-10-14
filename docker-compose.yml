@@ -29,6 +29,16 @@ services:
       # Persist Let's Encrypt certificates
       - letsencrypt:/letsencrypt
 
+  anycal:
+    image: igornadj/anycal:main
+    labels:
+      - "traefik.http.routers.anycal-local.rule=Host(`anycal.docker.localhost`)"
+      - "traefik.http.routers.anycal-local.tls=true"
+      - "traefik.http.routers.anycal-prod.rule=Host(`anycal.dev.igornadj.io`)"
+      - "traefik.http.routers.anycal-prod.tls=true"
+      - "traefik.http.routers.anycal-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.services.anycal.loadbalancer.server.port=8080"
+
   nextseason-web:
     image: igornadj/nextseason
     labels:
