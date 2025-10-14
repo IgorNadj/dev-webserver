@@ -31,6 +31,8 @@ services:
 
   anycal:
     image: igornadj/anycal:main
+    env_file:
+      - ../.env-anycal
     labels:
       - "traefik.http.routers.anycal-local.rule=Host(`anycal.docker.localhost`)"
       - "traefik.http.routers.anycal-local.tls=true"
