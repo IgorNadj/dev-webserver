@@ -5,30 +5,52 @@ services:
     # The official v3 Traefik docker image
     image: traefik:v3.3
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --certificatesresolvers.letsencrypt.acme.email=your-igor.nadj@gmail.com
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
     ports:
       # The HTTP port
       - "80:80"
+      # The HTTPS port
+      - "443:443"
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+      # Persist Let's Encrypt certificates
+      - letsencrypt:/letsencrypt
 
   nextseason-web:
     image: igornadj/nextseason
     labels:
       - "traefik.http.routers.nextseason-web.rule=Host(`nextseason.docker.localhost`) || Host(`nextseason.dev.igornadj.io`)"
-      - traefik.http.services.nextseason-web.loadbalancer.server.port=8080
+      - "traefik.http.services.nextseason-web.loadbalancer.server.port=8080"
+      - "traefik.http.routers.nextseason-web.tls=true"
+      - "traefik.http.routers.nextseason-web.tls.certresolver=letsencrypt"
 
   visual-processing-test:
     image: igornadj/visual-processing-test
     labels:
       - "traefik.http.routers.visual-processing-test.rule=Host(`visual-processing-test.docker.localhost`) || Host(`visual-processing-test.dev.igornadj.io`)"
-      - traefik.http.services.visual-processing-test.loadbalancer.server.port=8080
+      - "traefik.http.services.visual-processing-test.loadbalancer.server.port=8080"
+      - "traefik.http.routers.visual-processing-test.tls=true"
+      - "traefik.http.routers.visual-processing-test.tls.certresolver=letsencrypt"
 
   whoami:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      - "traefik.http.routers.whoami.tls=true"
+
+volumes:
+  letsencrypt:
