@@ -61,6 +61,20 @@ services:
       - "traefik.http.routers.visual-processing-test-prod.tls.certresolver=letsencrypt"
       - "traefik.http.services.visual-processing-test.loadbalancer.server.port=8080"
 
+  analytics:
+    image: arp242/goatcounter:latest
+    ports:
+      - '8080:8080'
+    volumes:
+      - goatcounter-data:/home/goatcounter/goatcounter-data
+    labels:
+      - "traefik.http.routers.analytics-local.rule=Host(`analytics.docker.localhost`)"
+      - "traefik.http.routers.analytics-local.tls=true"
+      - "traefik.http.routers.analytics-prod.rule=Host(`analytics.dev.igornadj.io`)"
+      - "traefik.http.routers.analytics-prod.tls=true"
+      - "traefik.http.routers.analytics-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.services.analytics.loadbalancer.server.port=8080"
+
   whoami:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
@@ -70,3 +84,4 @@ services:
 
 volumes:
   letsencrypt:
+  goatcounter-data:
