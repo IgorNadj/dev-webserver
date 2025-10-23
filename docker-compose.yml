@@ -40,6 +40,8 @@ services:
       - "traefik.http.routers.anycal-prod.tls=true"
       - "traefik.http.routers.anycal-prod.tls.certresolver=letsencrypt"
       - "traefik.http.services.anycal.loadbalancer.server.port=3000"
+    volumes:
+      - anycal:/home/db
 
   nextseason-web:
     image: igornadj/nextseason
@@ -83,3 +85,4 @@ services:
 volumes:
   letsencrypt:
   goatcounter-data:
+  anycal:
