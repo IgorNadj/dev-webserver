@@ -25,4 +25,9 @@ Dev Server
    1. Add `DEV_SERVER_SSH_KEY`
    2. Set up GHA ssh redeploy workflow
 
+## Run
 
+- dev:
+  - `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` 
+- prod:
+  - `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` 

@@ -1,0 +1,30 @@
+services:
+
+  anycal:
+    env_file:
+      - .env-anycal
+    labels:
+      - "traefik.http.routers.anycal.rule=Host(`anycal.docker.localhost`)"
+
+  nextseason-web:
+    labels:
+      - "traefik.http.routers.nextseason-web.rule=Host(`nextseason.docker.localhost`)"
+
+  visual-processing-test:
+    labels:
+      - "traefik.http.routers.visual-processing-test.rule=Host(`visual-processing-test.docker.localhost`)"
+
+  analytics:
+    labels:
+      - "traefik.http.routers.analytics.rule=Host(`analytics.docker.localhost`)"
+
+  openvpn-as:
+    ports:
+      - 5943:943
+      - 5443:443
+      - 51194:1194/udp
+
+  whoami:
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+

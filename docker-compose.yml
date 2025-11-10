@@ -31,14 +31,10 @@ services:
 
   anycal:
     image: igornadj/anycal:main
-    env_file:
-      - ../.env-anycal
+    # env_file defined in override docker-compose
     labels:
-      - "traefik.http.routers.anycal-local.rule=Host(`anycal.docker.localhost`)"
-      - "traefik.http.routers.anycal-local.tls=true"
-      - "traefik.http.routers.anycal-prod.rule=Host(`anycal.dev.igornadj.io`)"
-      - "traefik.http.routers.anycal-prod.tls=true"
-      - "traefik.http.routers.anycal-prod.tls.certresolver=letsencrypt"
+      # host rule in override docker-compose
+      - "traefik.http.routers.anycal.tls=true"
       - "traefik.http.services.anycal.loadbalancer.server.port=3000"
     volumes:
       - anycal:/home/db
@@ -46,21 +42,15 @@ services:
   nextseason-web:
     image: igornadj/nextseason
     labels:
-      - "traefik.http.routers.nextseason-web-local.rule=Host(`nextseason.docker.localhost`)"
-      - "traefik.http.routers.nextseason-web-local.tls=true"
-      - "traefik.http.routers.nextseason-web-prod.rule=Host(`nextseason.dev.igornadj.io`)"
-      - "traefik.http.routers.nextseason-web-prod.tls=true"
-      - "traefik.http.routers.nextseason-web-prod.tls.certresolver=letsencrypt"
+      # host rule in override docker-compose
+      - "traefik.http.routers.nextseason-web.tls=true"
       - "traefik.http.services.nextseason-web.loadbalancer.server.port=8080"
 
   visual-processing-test:
     image: igornadj/visual-processing-test
     labels:
-      - "traefik.http.routers.visual-processing-test-local.rule=Host(`visual-processing-test.docker.localhost`)"
-      - "traefik.http.routers.visual-processing-test-local.tls=true"
-      - "traefik.http.routers.visual-processing-test-prod.rule=Host(`visual-processing-test.dev.igornadj.io`)"
-      - "traefik.http.routers.visual-processing-test-prod.tls=true"
-      - "traefik.http.routers.visual-processing-test-prod.tls.certresolver=letsencrypt"
+      # host rule in override docker-compose
+      - "traefik.http.routers.visual-processing-test.tls=true"
       - "traefik.http.services.visual-processing-test.loadbalancer.server.port=8080"
 
   analytics:
@@ -68,21 +58,36 @@ services:
     volumes:
       - goatcounter-data:/home/goatcounter/goatcounter-data
     labels:
-      - "traefik.http.routers.analytics-local.rule=Host(`analytics.docker.localhost`)"
-      - "traefik.http.routers.analytics-local.tls=true"
-      - "traefik.http.routers.analytics-prod.rule=Host(`analytics.dev.igornadj.io`)"
-      - "traefik.http.routers.analytics-prod.tls=true"
-      - "traefik.http.routers.analytics-prod.tls.certresolver=letsencrypt"
+      # host rule in override docker-compose
+      - "traefik.http.routers.analytics.tls=true"
       - "traefik.http.services.analytics.loadbalancer.server.port=8080"
+
+  openvpn-as:
+    image: openvpn/openvpn-as
+    container_name: openvpn-as
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - MKNOD
+     # ports defined in override docker-compose
+#    ports:
+#      - 943:943
+#      - 1443:443
+#      - 1194:1194/udp
+    volumes:
+      - openvpn:/openvpn
+    restart: unless-stopped
 
   whoami:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      # host rule in override docker-compose
       - "traefik.http.routers.whoami.tls=true"
 
 volumes:
   letsencrypt:
   goatcounter-data:
   anycal:
+  openvpn:

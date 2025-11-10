@@ -1,0 +1,34 @@
+services:
+
+  anycal:
+    env_file:
+      - ../.env-anycal
+    labels:
+      - "traefik.http.routers.anycal.rule=Host(`anycal.dev.igornadj.io`)"
+      - "traefik.http.routers.anycal.tls.certresolver=letsencrypt"
+
+  nextseason-web:
+    labels:
+      - "traefik.http.routers.nextseason-web.rule=Host(`nextseason.dev.igornadj.io`)"
+      - "traefik.http.routers.nextseason-web.tls.certresolver=letsencrypt"
+
+  visual-processing-test:
+    labels:
+      - "traefik.http.routers.visual-processing-test.rule=Host(`visual-processing-test.dev.igornadj.io`)"
+      - "traefik.http.routers.visual-processing-test.tls.certresolver=letsencrypt"
+
+  analytics:
+    labels:
+      - "traefik.http.routers.analytics.rule=Host(`analytics.dev.igornadj.io`)"
+      - "traefik.http.routers.analytics.tls.certresolver=letsencrypt"
+
+  openvpn-as:
+    ports:
+      - 943:943
+      - 1443:443
+      - 1194:1194/udp
+
+  whoami:
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.dev.igornadj.io`)"
+
