@@ -18,10 +18,6 @@ services:
     labels:
       - "traefik.http.routers.analytics.rule=Host(`analytics.docker.localhost`)"
 
-  openvpn-as:
-    labels:
-      - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn-dashboard.docker.localhost`)"
-
   whoami:
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"

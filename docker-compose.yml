@@ -73,17 +73,12 @@ services:
       - NET_ADMIN
       - MKNOD
     ports:
+      - 943:943 # web dashboard
       - 1443:443
       - 1194:1194/udp
     volumes:
       - openvpn:/openvpn
     restart: unless-stopped
-    labels:
-      # host rule in override docker-compose
-      - "traefik.http.routers.vpn-dashboard.tls=true"
-      - "traefik.http.routers.vpn-dashboard.service=vpn-dashboard"
-      - "traefik.http.services.vpn-dashboard.loadbalancer.server.port=943" # 943 is the dashboard port, not 443
-      - "traefik.http.services.vpn-dashboard.loadbalancer.server.scheme=https"
 
   whoami:
     # A container that exposes an API to show its IP address
