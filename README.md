@@ -27,8 +27,7 @@ Dev Server
 
 ## Run
 
-- dev:
-  - `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` 
-- prod:
-  - `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` 
+- dev: `docker compose -f docker-compose.yml -f docker-compose.dev.yml up`
+- prod: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` 
 
+Then view the traefik dashboard at: `http://<public ip>:8080/`

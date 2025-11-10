@@ -23,10 +23,8 @@ services:
       - "traefik.http.routers.analytics.tls.certresolver=letsencrypt"
 
   openvpn-as:
-    ports:
-      - 943:943
-      - 1443:443
-      - 1194:1194/udp
+    labels:
+      - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn.dev.igornadj.io`)"
 
   whoami:
     labels:

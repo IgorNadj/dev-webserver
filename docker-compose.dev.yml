@@ -19,10 +19,8 @@ services:
       - "traefik.http.routers.analytics.rule=Host(`analytics.docker.localhost`)"
 
   openvpn-as:
-    ports:
-      - 5943:943
-      - 5443:443
-      - 51194:1194/udp
+    labels:
+      - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn-dashboard.docker.localhost`)"
 
   whoami:
     labels:
