@@ -24,7 +24,7 @@ services:
 
   openvpn-as:
     labels:
-      - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn.dev.igornadj.io`)"
+      - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn-dashboard.dev.igornadj.io`)"
 
   whoami:
     labels:
