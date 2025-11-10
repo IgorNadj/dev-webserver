@@ -25,7 +25,7 @@ services:
   openvpn-as:
     labels:
       - "traefik.http.routers.vpn-dashboard.rule=Host(`vpn-dashboard.dev.igornadj.io`)"
-      - "traefik.http.routers.analytics.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.vpn-dashboard.tls.certresolver=letsencrypt"
 
   whoami:
     labels:
