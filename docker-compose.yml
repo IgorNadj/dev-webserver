@@ -64,21 +64,21 @@ services:
       - "traefik.http.routers.analytics.tls=true"
       - "traefik.http.services.analytics.loadbalancer.server.port=8080"
 
-  openvpn-as:
-    image: openvpn/openvpn-as
-    container_name: openvpn-as
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - NET_ADMIN
-      - MKNOD
-    ports:
-      - 943:943 # web dashboard
-      - 1443:443
-      - 1194:1194/udp
-    volumes:
-      - openvpn:/openvpn
-    restart: unless-stopped
+#  openvpn-as:
+#    image: openvpn/openvpn-as
+#    container_name: openvpn-as
+#    devices:
+#      - /dev/net/tun:/dev/net/tun
+#    cap_add:
+#      - NET_ADMIN
+#      - MKNOD
+#    ports:
+#      - 943:943 # web dashboard
+#      - 1443:443
+#      - 1194:1194/udp
+#    volumes:
+#      - openvpn:/openvpn
+#    restart: unless-stopped
 
   whoami:
     # A container that exposes an API to show its IP address
@@ -91,4 +91,4 @@ volumes:
   letsencrypt:
   goatcounter-data:
   anycal:
-  openvpn:
+#  openvpn:
